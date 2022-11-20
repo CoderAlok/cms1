@@ -37,11 +37,11 @@ class HomeController extends Controller
      */
     public function indexProfile(Request $request)
     {
-            // $url = 'http://www.cms.co.in/api/v1/test?id=1563';
-            // $response = $this->client->get($url);
-            // $results = $response->getBody();
-            // $results = json_decode($results);
-            // return response()->json($results);
+        $url = 'http://www.cms.co.in/api/v1/test?id=1563';
+        $response = $this->client->get($url);
+        $results = $response->getBody();
+        $results = json_decode($results);
+        return response()->json($results);
         $data = [];
         return view('profile');
     }

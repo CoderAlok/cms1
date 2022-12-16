@@ -40,3 +40,8 @@ Route::group(['prefix' => 'employees'], function () {
     Route::post('update', [EmployeeController::class, 'update'])->name('employee.update');
     Route::get('delete/{id?}', [EmployeeController::class, 'delete'])->name('employee.delete');
 });
+
+
+Route::group(['prefix' => 'contact'], function () {
+    Route::post('update/{id?}', [EmployeeController::class, 'updateContacts'])->name('contact.update');
+});

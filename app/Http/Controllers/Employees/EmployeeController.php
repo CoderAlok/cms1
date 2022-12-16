@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employees;
 
 use App\Http\Controllers\Controller;
+use Contacts;
 use Employee;
 use Illuminate\Http\Request;
 
@@ -73,14 +74,13 @@ class EmployeeController extends Controller
 
     public function delete(Request $request, $id = null)
     {
-        try{
+        try {
 
             $employee_list = new Employee();
-            
-            if($id!=null){
+
+            if ($id != null) {
                 $employee_list = $employee_list->where('id', $id)->delete();
-            }
-            else{
+            } else {
                 $employee_list = $employee_list->delete();
             }
 
@@ -89,9 +89,37 @@ class EmployeeController extends Controller
             $data['data'] = $employee_list;
 
             return response($data, 200);
-        }
-        catch(\Exception $error){
+        } catch (\Exception$error) {
             $data['status'] = 0;
+            $data['message'] = 'Internal server error : ' . $error->getMessage();
+            $data['data'] = [];
+
+            return response($data, 500);
+        }
+    }
+
+    public function updateContacts(Request $request)
+    {
+        try {
+
+            $id = $request->id;
+            $area_details = $request->area_details;
+
+            $result = Contacts::where('id', $id)->update(['area_details' => $area_details]);
+
+            $getLatest = Contacts::when($id != 0, function ($Q) use ($id) {
+                $Q->where('id', $id);
+            })->get();
+
+            $data['status'] = 200;
+            $data['message'] = 'Updated successfully';
+            $data['data'] = $result; //request->all();
+            $data['latest_data'] = $getLatest; //request->all();
+            $data['district'] = $getLatest[0]->area_details; //json_decode($getLatest[0]->area_details, true);
+
+            return response($data, 200);
+        } catch (\Exception$error) {
+            $data['status'] = 500;
             $data['message'] = 'Internal server error : ' . $error->getMessage();
             $data['data'] = [];
 

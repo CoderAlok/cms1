@@ -212,7 +212,7 @@ return [
      */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Contacts' => App\Models\Contact::class,
         'Notes' => App\Models\notes\tbl_notes::class,
         'State' => App\Models\state\tbl_state::class,
         'District' => App\Models\district\tbl_district::class,
